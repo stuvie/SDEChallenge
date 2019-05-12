@@ -1,4 +1,4 @@
-#SDE Challenge Solution
+# SDE Challenge Solution
 by Steve Kotsopoulos
 
 ## Design Solution
