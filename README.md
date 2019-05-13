@@ -13,9 +13,9 @@ In order to easily support new requirements with minimal coding, I wanted to bas
 
 In order to support high-precision arithmetic, elements are stored in BigDecimal.
 
-I created 2 implementations, the best implementation is based on ArrayList, which is O(1) on average for inserts and O(1) on average for access and backed by a dynamically resizing array.
+I created 2 implementations, the best implementation is based on ArrayList, which is O(1) on average for inserts and O(1) on average for access and backed by a dynamically resizing array. The other advantage of ArrayList is that it consumes less memory than a LinkedList implementation, since the array is laid out on a continuous block of memory and doesn't need auxiliary pointers as found in a LinkedList.
 
-The other implementation was based on LinkedList, which is O(1) on inserts and O(n) on access and backed by a doubly-linked list.
+The other implementation was based on LinkedList, which is O(1) on inserts and O(n) on access and backed by a doubly-linked list. It is provided for illustration and comparison purposes.
 
 ### Assumptions
 In a given business context, it is normal to have a commonly-used form of moving average. For example, when analyzing stock prices you might be interested in the 5-day moving average. Thus, I decided to make the `sampleSize` a constructor parameter rather than a parameter on the `getMovingAverage()` function.
@@ -32,9 +32,9 @@ Note that each of the 2 test classes have a `testMovingAverageScalability` which
 
 The test duration includes both the time to insert elements into the list, as well as calculate the moving average. We insert 9 million elements, and calculate the moving average over the most recent 6 million.
 
-If we only consider the time to calculate the moving average, and ignore the time to insert elements, then both implementations are almost the same, taking about 590 ms on the same hardware.
+If we only consider the time to calculate the moving average, and ignore the time to insert elements, then both implementations are almost the same, taking about 590 ms on the same hardware. This tells us the main contributor to the LinkedList implementation being slower is inserts, which is likely due to the memory allocation that needs to happen in creating each node.
 
-On the assumption that we might request the moving average a large number of times without doing inserts into the list, a trivial performance enhancement was implemented to cache the most recent result.
+On the assumption that we might request the moving average a large number of times without doing inserts into the list, a trivial performance enhancement to `getMovingAverage()` was implemented to cache the most recent result. We clear that cached result anytime a new element is added to the ArrayList.
 
 ### Future Enhancements
 
